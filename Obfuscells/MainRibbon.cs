@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -10,7 +9,7 @@ using Microsoft.Office.Tools.Ribbon;
 namespace Obfuscells {
     public partial class MainRibbon {
         private static Range selectedRange;
-        private static Random rand = new Random();
+        private static readonly Random rand = new Random();
         private static int saltlength = 8;
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e) {
 
@@ -94,7 +93,6 @@ namespace Obfuscells {
             byte[] bytesToBeEncrypted = Encoding.UTF8.GetBytes(cellValue);
             byte[] passphraseBytes = Encoding.UTF8.GetBytes(passphrase);
             passphraseBytes = SHA256.Create().ComputeHash(passphraseBytes);
-            byte[] encryptedBytes;
             byte[] outputBytes;
 
             using (MemoryStream ms = new MemoryStream()) {
@@ -112,7 +110,7 @@ namespace Obfuscells {
                         cs.Write(bytesToBeEncrypted, 0, bytesToBeEncrypted.Length);
                         cs.Close();
                     }
-                    encryptedBytes = ms.ToArray();
+                    var encryptedBytes = ms.ToArray();
                     outputBytes = new byte[saltBytes.Length + encryptedBytes.Length];
                     saltBytes.CopyTo(outputBytes, 0);
                     encryptedBytes.CopyTo(outputBytes, saltBytes.Length);
@@ -131,7 +129,7 @@ namespace Obfuscells {
             }
             byte[] passphraseBytes = Encoding.UTF8.GetBytes(passphrase);
             passphraseBytes = SHA256.Create().ComputeHash(passphraseBytes);
-            byte[] decryptedBytes = null;
+            byte[] decryptedBytes;
 
             using (MemoryStream ms = new MemoryStream()) {
                 using (RijndaelManaged AES = new RijndaelManaged()) {

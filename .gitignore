@@ -1,2 +1,5 @@
 Obfuscells\bin\*
 Obfuscells\obj\*
+/Obfuscells/obj/*
+/Obfuscells/bin/*
+/.vs/
