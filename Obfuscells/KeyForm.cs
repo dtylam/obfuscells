@@ -4,7 +4,8 @@ using System.Windows.Forms;
 namespace Obfuscells {
     public partial class KeyForm : Form {
         private static string passphrase;
-        private static int mode;
+        private static int encryptionMode;
+
         public KeyForm(string titlelblText, string acceptbtnText) {
             InitializeComponent();
             Encryptbtn.Text = acceptbtnText;
@@ -16,15 +17,15 @@ namespace Obfuscells {
             return passphrase;
         }
 
-        public int GetMode() {
-            return mode;
+        public int GetEncryptionMode() {
+            return encryptionMode;
         }
 
         private void Encryptbtn_Click(object sender, EventArgs e) {
             passphrase = passphraseTextbox.Text;
-            if (XORopt.Checked) mode = 0;
-            if (AES192opt.Checked) mode = 1;
-            if (AES256opt.Checked) mode = 2;
+            if (XORopt.Checked) encryptionMode = 0;
+            if (AES192opt.Checked) encryptionMode = 1;
+            if (AES256opt.Checked) encryptionMode = 2;
             Close();
             DialogResult = DialogResult.Yes;
         }
